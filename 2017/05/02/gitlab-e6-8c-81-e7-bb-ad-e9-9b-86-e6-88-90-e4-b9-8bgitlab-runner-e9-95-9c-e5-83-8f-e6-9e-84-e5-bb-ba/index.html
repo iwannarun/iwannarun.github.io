@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=" - 持续集成 - Gitlab," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="流程图 安装gitlab-runner 官方推荐使用包管理工具安装的方式，推荐使用清华的镜像：Gitlab CI Multi Runner  对于需要安装历史版本的可以从这里找： 传送门  本文将更多去介绍采用docker构建镜像的方式去run一个安装了gitlab-runner的容器。 前期准备 由于自用Gitlab的版本比较低，需要找低版本的gitlab-runner，而官方对centOS7的">
+<meta name="keywords" content=" - 持续集成 - Gitlab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitLab持续集成之gitlab-runner构建使用">
+<meta property="og:url" content="http://yoursite.com/2017/05/02/gitlab-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90-e4-b9-8bgitlab-runner-e9-95-9c-e5-83-8f-e6-9e-84-e5-bb-ba/index.html">
+<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blog">
+<meta property="og:description" content="流程图 安装gitlab-runner 官方推荐使用包管理工具安装的方式，推荐使用清华的镜像：Gitlab CI Multi Runner  对于需要安装历史版本的可以从这里找： 传送门  本文将更多去介绍采用docker构建镜像的方式去run一个安装了gitlab-runner的容器。 前期准备 由于自用Gitlab的版本比较低，需要找低版本的gitlab-runner，而官方对centOS7的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://o6qknsods.bkt.clouddn.com/markdown-3a734ea26c4fbb74395328385a3d25c9.png-960.jpg">
+<meta property="og:image" content="http://o6qknsods.bkt.clouddn.com/markdown-66704eefd742458ae7704ed77fe8078e.png-960.jpg">
+<meta property="og:updated_time" content="2017-06-17T15:26:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitLab持续集成之gitlab-runner构建使用">
+<meta name="twitter:description" content="流程图 安装gitlab-runner 官方推荐使用包管理工具安装的方式，推荐使用清华的镜像：Gitlab CI Multi Runner  对于需要安装历史版本的可以从这里找： 传送门  本文将更多去介绍采用docker构建镜像的方式去run一个安装了gitlab-runner的容器。 前期准备 由于自用Gitlab的版本比较低，需要找低版本的gitlab-runner，而官方对centOS7的">
+<meta name="twitter:image" content="http://o6qknsods.bkt.clouddn.com/markdown-3a734ea26c4fbb74395328385a3d25c9.png-960.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/02/gitlab-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90-e4-b9-8bgitlab-runner-e9-95-9c-e5-83-8f-e6-9e-84-e5-bb-ba/"/>
+
+
+
+
+
+  <title>GitLab持续集成之gitlab-runner构建使用 | 我要稳稳的RUN's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我要稳稳的RUN's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I WANNA RUN</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/02/gitlab-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90-e4-b9-8bgitlab-runner-e9-95-9c-e5-83-8f-e6-9e-84-e5-bb-ba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RUN">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.iwannarun.cn/content/images/2017/09/funny.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GitLab持续集成之gitlab-runner构建使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T23:59:56+08:00">
+                2017-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="http://o6qknsods.bkt.clouddn.com/markdown-3a734ea26c4fbb74395328385a3d25c9.png-960.jpg" alt=""></p>
+<h2 id="安装gitlab-runner"><a href="#安装gitlab-runner" class="headerlink" title="安装gitlab-runner"></a>安装gitlab-runner</h2><p> 官方推荐使用包管理工具安装的方式，推荐使用清华的镜像：<a href="https://mirror.tuna.tsinghua.edu.cn/help/gitlab-ci-multi-runner/" target="_blank" rel="external">Gitlab CI Multi Runner </a><br> 对于需要安装历史版本的可以从这里找：<br> <a href="https://packages.gitlab.com/runner/gitlab-ci-multi-runner" target="_blank" rel="external">传送门</a></p>
+<p> 本文将更多去介绍采用docker构建镜像的方式去run一个安装了gitlab-runner的容器。</p>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><p> 由于自用Gitlab的版本比较低，需要找低版本的gitlab-runner，而官方对centOS7的支持不是太友好的感觉，折腾了两天没搞好centOS下的镜像。所以乌邦图将就用一下，达到目的就好。 附兼容表：<br>  <img src="http://o6qknsods.bkt.clouddn.com/markdown-66704eefd742458ae7704ed77fe8078e.png-960.jpg" alt=""></p>
+<h2 id="Dockerfile-基于Ubuntu14-04的镜像-Docker-JDK8-Gradle"><a href="#Dockerfile-基于Ubuntu14-04的镜像-Docker-JDK8-Gradle" class="headerlink" title="Dockerfile(基于Ubuntu14.04的镜像 Docker JDK8 Gradle)"></a>Dockerfile(基于Ubuntu14.04的镜像 Docker JDK8 Gradle)</h2><pre><code>FROM ubuntu:14.04
+ADD dumb-init_1.0.2_amd64 /usr/bin/dumb-init
+RUN chmod +x /usr/bin/dumb-init
+
+RUN apt-get update -y &amp;&amp; \
+apt-get upgrade -y &amp;&amp; \
+apt-get install -y ca-certificates wget git apt-transport-https curl vim nano software-properties-common python-software-properties
+
+COPY gitlab-ci-multi-runner_amd64.deb /tmp/
+RUN dpkg -i /tmp/gitlab-ci-multi-runner_amd64.deb; \
+apt-get update &amp;&amp;  \
+apt-get -f install -y &amp;&amp; \
+apt-get clean &amp;&amp; \
+rm -rf /var/lib/apt/lists/* &amp;&amp; \
+rm /tmp/gitlab-ci-multi-runner_amd64.deb &amp;&amp; \
+gitlab-runner --version &amp;&amp; \
+mkdir -p /etc/gitlab-runner/certs &amp;&amp; \
+chmod -R 700 /etc/gitlab-runner
+# 安装Docker
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+RUN add-apt-repository \
+   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable&quot;
+RUN apt-get update -y
+RUN apt-get -y install docker-ce
+RUN  apt-get clean &amp;&amp; \
+rm -rf /var/lib/apt/lists/    
+# 安装jdk8
+RUN apt-get update &amp;&amp; apt-get -y upgrade &amp;&amp; apt-get -y install software-properties-common &amp;&amp; add-apt-repository ppa:webupd8team/java -y &amp;&amp; apt-get update
+RUN (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) &amp;&amp; apt-get install -y oracle-java8-installer oracle-java8-set-default
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV PATH $JAVA_HOME/bin:$PATH
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists
+RUN rm -rf /var/cache/oracle-jdk${JAVA_VER}-installer
+
+# 安装Gradle，Gradle的源原件需要手工下载，速度更快
+RUN curl -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-3.4.1-bin.zip
+ADD gradle-3.4.1 /usr/local/gradle
+ENV GRADLE_HOME /usr/local/gradle
+ENV PATH $PATH:$GRADLE_HOME/bin
+
+# 为gitlab-runner用户增加docker权限
+RUN usermod -aG docker gitlab-runner
+COPY entrypoint /
+RUN chmod +x /entrypoint
+
+VOLUME [&quot;/etc/gitlab-runner&quot;, &quot;/home/gitlab-runner&quot;]
+ENTRYPOINT [&quot;/usr/bin/dumb-init&quot;, &quot;/entrypoint&quot;]
+CMD [&quot;run&quot;, &quot;--user=gitlab-runner&quot;, &quot;--working-directory=/home/gitlab-runner&quot;]
+</code></pre><h2 id="运行-Use-Docker-socket-binding"><a href="#运行-Use-Docker-socket-binding" class="headerlink" title="运行 Use Docker socket binding"></a>运行 Use Docker socket binding</h2><pre><code>docker run --name gitlab-runner -d -v /data/gitlab-ci/config:/etc/gitlab-runner/ -v /var/run/docker.sock:/var/run/docker.sock c0cacb75b262
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://docs.gitlab.com/ce/ci/docker/using_docker_build.html#use-docker-in-docker-executor" target="_blank" rel="external">https://docs.gitlab.com/ce/ci/docker/using_docker_build.html#use-docker-in-docker-executor</a></li>
+<li><a href="https://docs.gitlab.com/runner/install/" target="_blank" rel="external">https://docs.gitlab.com/runner/install/</a></li>
+<li><a href="https://hub.docker.com/r/sameersbn/gitlab/" target="_blank" rel="external">https://hub.docker.com/r/sameersbn/gitlab/</a></li>
+<li><a href="https://docs.gitlab.com/runner/commands/README.html" target="_blank" rel="external">https://docs.gitlab.com/runner/commands/README.html</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/持续集成-Gitlab/" rel="tag">#  - 持续集成 - Gitlab</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/02/gitlab-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90-e4-b9-8b-gitlab-ci-yml-e9-85-8d-e7-bd-ae-e5-ae-9e-e4-be-8b/" rel="next" title="GitLab持续集成之.gitlab-ci.yml配置实例">
+                <i class="fa fa-chevron-left"></i> GitLab持续集成之.gitlab-ci.yml配置实例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/03/docker--e4-bf-ae-e6-94-b9-e9-bb-98-e8-ae-a4-e7-9a-84-e9-95-9c-e5-83-8f-e5-ad-98-e5-82-a8-e4-bd-8d-e7-bd-ae/" rel="prev" title="Docker 修改默认的镜像存储位置">
+                Docker 修改默认的镜像存储位置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://blog.iwannarun.cn/content/images/2017/09/funny.gif"
+                alt="RUN" />
+            
+              <p class="site-author-name" itemprop="name">RUN</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/iwannarun" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/tromsos" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#流程图"><span class="nav-number">1.</span> <span class="nav-text">流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装gitlab-runner"><span class="nav-number">2.</span> <span class="nav-text">安装gitlab-runner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前期准备"><span class="nav-number">3.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile-基于Ubuntu14-04的镜像-Docker-JDK8-Gradle"><span class="nav-number">4.</span> <span class="nav-text">Dockerfile(基于Ubuntu14.04的镜像 Docker JDK8 Gradle)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行-Use-Docker-socket-binding"><span class="nav-number">5.</span> <span class="nav-text">运行 Use Docker socket binding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RUN</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

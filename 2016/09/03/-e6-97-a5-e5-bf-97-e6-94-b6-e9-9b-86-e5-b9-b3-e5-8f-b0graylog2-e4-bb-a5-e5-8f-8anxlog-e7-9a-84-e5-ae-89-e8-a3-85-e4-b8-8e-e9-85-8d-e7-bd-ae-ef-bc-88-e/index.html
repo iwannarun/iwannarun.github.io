@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=" - 日志收集," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="graylog 安装配置 CentOS7 64 基于Docker的安装 graylog 官网 docker 安装 Persist log data  1234mkdir -p /graylog/configcd /graylog/configwget https://raw.githubusercontent.com/Graylog2/graylog2-images/2.0/docker/conf">
+<meta name="keywords" content=" - 日志收集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日志收集平台Graylog2以及Nxlog的安装与配置（基于docker）">
+<meta property="og:url" content="http://yoursite.com/2016/09/03/-e6-97-a5-e5-bf-97-e6-94-b6-e9-9b-86-e5-b9-b3-e5-8f-b0graylog2-e4-bb-a5-e5-8f-8anxlog-e7-9a-84-e5-ae-89-e8-a3-85-e4-b8-8e-e9-85-8d-e7-bd-ae-ef-bc-88-e/index.html">
+<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blog">
+<meta property="og:description" content="graylog 安装配置 CentOS7 64 基于Docker的安装 graylog 官网 docker 安装 Persist log data  1234mkdir -p /graylog/configcd /graylog/configwget https://raw.githubusercontent.com/Graylog2/graylog2-images/2.0/docker/conf">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i.imgur.com/LQojAHo.png">
+<meta property="og:image" content="http://i.imgur.com/7RylUN7.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013000632320">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013000718290">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013000759269">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013000833050">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013000911582">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001012592">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001044264">
+<meta property="og:image" content="http://i.imgur.com/GDijTaS.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001132723">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001159223">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001226036">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001251533">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013001320768">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013002306040">
+<meta property="og:image" content="http://img.blog.csdn.net/20161013003127056">
+<meta property="og:updated_time" content="2017-08-25T08:30:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="日志收集平台Graylog2以及Nxlog的安装与配置（基于docker）">
+<meta name="twitter:description" content="graylog 安装配置 CentOS7 64 基于Docker的安装 graylog 官网 docker 安装 Persist log data  1234mkdir -p /graylog/configcd /graylog/configwget https://raw.githubusercontent.com/Graylog2/graylog2-images/2.0/docker/conf">
+<meta name="twitter:image" content="http://i.imgur.com/LQojAHo.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/03/-e6-97-a5-e5-bf-97-e6-94-b6-e9-9b-86-e5-b9-b3-e5-8f-b0graylog2-e4-bb-a5-e5-8f-8anxlog-e7-9a-84-e5-ae-89-e8-a3-85-e4-b8-8e-e9-85-8d-e7-bd-ae-ef-bc-88-e/"/>
+
+
+
+
+
+  <title>日志收集平台Graylog2以及Nxlog的安装与配置（基于docker） | 我要稳稳的RUN's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我要稳稳的RUN's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I WANNA RUN</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/03/-e6-97-a5-e5-bf-97-e6-94-b6-e9-9b-86-e5-b9-b3-e5-8f-b0graylog2-e4-bb-a5-e5-8f-8anxlog-e7-9a-84-e5-ae-89-e8-a3-85-e4-b8-8e-e9-85-8d-e7-bd-ae-ef-bc-88-e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RUN">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.iwannarun.cn/content/images/2017/09/funny.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">日志收集平台Graylog2以及Nxlog的安装与配置（基于docker）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-03T20:20:47+08:00">
+                2016-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="graylog-安装配置"><a href="#graylog-安装配置" class="headerlink" title="graylog 安装配置"></a>graylog 安装配置</h1><ul>
+<li>CentOS7 64 基于Docker的安装 <a href="http://docs.graylog.org/en/2.0/pages/installation/docker.html" target="_blank" rel="external">graylog 官网 docker 安装</a></li>
+<li>Persist log data</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mkdir -p /graylog/config</div><div class="line">cd /graylog/config</div><div class="line">wget https://raw.githubusercontent.com/Graylog2/graylog2-images/2.0/docker/config/graylog.conf</div><div class="line">wget https://raw.githubusercontent.com/Graylog2/graylog2-images/2.0/docker/config/log4j2.xml</div></pre></td></tr></table></figure>
+<ul>
+<li>通过docker安装graylog<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1.挂载- /etc/localtime:/etc/localtime 容器同步宿主机时间 </div><div class="line">2.修改GRAYLOG_REST_TRANSPORT_URI 地址为宿主机IP</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>The docker-compose.yml file looks like this:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">some-mongo:</div><div class="line">  image: &quot;mongo:3&quot;</div><div class="line">  volumes:</div><div class="line">- /graylog/data/mongo:/data/db</div><div class="line">- /etc/localtime:/etc/localtime</div><div class="line">some-elasticsearch:</div><div class="line">  image: &quot;elasticsearch:2&quot;</div><div class="line">  command: &quot;elasticsearch -Des.cluster.name=&apos;graylog&apos;&quot;</div><div class="line">  volumes:</div><div class="line">- /graylog/data/elasticsearch:/usr/share/elasticsearch/data</div><div class="line">- /etc/localtime:/etc/localtime</div><div class="line">graylog:</div><div class="line">  image: graylog2/server</div><div class="line">  volumes:</div><div class="line">- /graylog/data/journal:/usr/share/graylog/data/journal</div><div class="line">- /graylog/config:/usr/share/graylog/data/config</div><div class="line">- /etc/localtime:/etc/localtime</div><div class="line">  environment:</div><div class="line">GRAYLOG_PASSWORD_SECRET: somepasswordpepper</div><div class="line">GRAYLOG_ROOT_PASSWORD_SHA2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918</div><div class="line">GRAYLOG_REST_TRANSPORT_URI: http://127.0.0.1:12900</div><div class="line"></div><div class="line">  links:</div><div class="line">- some-mongo:mongo</div><div class="line">- some-elasticsearch:elasticsearch</div><div class="line">  ports:</div><div class="line">- &quot;9000:9000&quot;</div><div class="line">- &quot;12900:12900&quot;</div><div class="line">- &quot;12201/udp:12201/udp&quot;</div><div class="line">- &quot;1514/udp:1514/udp&quot;</div></pre></td></tr></table></figure></p>
+<p> 1.docker-compose安装环境,安装pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">install pip</div></pre></td></tr></table></figure></p>
+<p> 2.安装docker-comopse<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install -U docker-compose</div></pre></td></tr></table></figure></p>
+<p> 3.启动docker-compose<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker-compose up</div></pre></td></tr></table></figure></p>
+<p><a href="http://dockone.io/article/834" target="_blank" rel="external">Docker Compose常用命令</a></p>
+<h2 id="Graylog-Collector-Sidecar"><a href="#Graylog-Collector-Sidecar" class="headerlink" title="Graylog Collector Sidecar"></a>Graylog Collector Sidecar</h2><ul>
+<li>原理图</li>
+</ul>
+<p><img src="http://i.imgur.com/LQojAHo.png" alt=""> 安装nxlog </p>
+<p>1.centos 环境 安装方法参考这里<a href="http://blog.csdn.net/iwannarun/article/details/52604646" target="_blank" rel="external">http://blog.csdn.net/iwannarun/article/details/52604646</a></p>
+<p>2.ubuntu 环境<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo dpkg-deb -f nxlog-ce_2.9.1716_ubuntu_1604_amd64.deb Depends</div><div class="line">$ sudo apt-get -f -y install</div><div class="line">$ sudo /etc/init.d/nxlog stop</div><div class="line">$ sudo update-rc.d -f nxlog remove</div><div class="line">$ sudo gpasswd -a nxlog adm</div></pre></td></tr></table></figure></p>
+<p>3.Windows 安装collector-sidecar<br>1.centos 环境<br>2.ubuntu 环境 dpkg -i collector-sidecar_0.0.7-1_amd64.deb<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">To register and enable a system service use the -service option:</div><div class="line">$ sudo graylog-collector-sidecar -service install</div><div class="line">$ sudo service collector-sidecar start</div></pre></td></tr></table></figure></p>
+<p> 3.Windows nxlog.conf、collector_sidecar.yml 配置 1.nxlog.conf <img src="http://i.imgur.com/7RylUN7.png" alt=""><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">路径为要监控日志文件路径</div><div class="line">graylog server ip  端口可以不用修改</div><div class="line"></div><div class="line"></div><div class="line"> 2.collector_sidecar.yml ![这里写图片描述](http://img.blog.csdn.net/20161013000529424)</div><div class="line"></div><div class="line">还要修改server_url ：http://graylog server ip:12900</div><div class="line">node_id: graylog-collector-sidecar </div><div class="line">如果有多个collect则要修改不同名称</div><div class="line"></div><div class="line">graylog web 配置</div></pre></td></tr></table></figure></p>
+<p><a href="http://graylog" target="_blank" rel="external">http://graylog</a> server ip:9000<br>system/collectors-collectors-manager coonfigures-create coonfigures<br>```</p>
+<p><img src="http://img.blog.csdn.net/20161013000632320" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013000718290" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013000759269" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013000833050" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013000911582" alt="这里写图片描述"> Collector xx Configuration - NXLog 配置 Configure NXLog Outputs <img src="http://img.blog.csdn.net/20161013001012592" alt="这里写图片描述"> Configure NXLog Inputs <img src="http://img.blog.csdn.net/20161013001044264" alt="这里写图片描述"> 日志客户端启动collector-sidecar /etc/init.d/collector-sidecar start 查看进程 <img src="http://i.imgur.com/GDijTaS.png" alt=""> graylog web查看Collectors 是否运行正常 <img src="http://img.blog.csdn.net/20161013001132723" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013001159223" alt="这里写图片描述"> graylog web 设置 日志接收 <img src="http://img.blog.csdn.net/20161013001226036" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013001251533" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161013001320768" alt="这里写图片描述"></p>
+<hr>
+<h2 id="收集成果展示"><a href="#收集成果展示" class="headerlink" title="收集成果展示"></a>收集成果展示</h2><ul>
+<li>DashBoards：可根据检索条件设置饼状图柱状图，便于分析查看 <img src="http://img.blog.csdn.net/20161013002306040" alt="这里写图片描述"></li>
+<li>Search : 可根据时间关键字及日志源（Nxlog）所在的服务器进行筛选 <img src="http://img.blog.csdn.net/20161013003127056" alt="这里写图片描述"></li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>graylog非常适合分布式应用的日志收集，将各台服务器的日志收集至同一个地方，利用预设检索场景的dashboards能够对全局达到一目了然的效果，检索信息也十分方便。但需要注意的是日志规范在这里就尤为重要：例如统一的日志的格式能够提升检索速度，生成环境只坚决不打debug级别的日志能有效控制空间占用，毕竟接受的日志数据是持久化在graylog的mongo当中的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/日志收集/" rel="tag">#  - 日志收集</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/16/nginx-e9-85-8d-e7-bd-ae-e6-96-87-e4-bb-b6-e8-af-a6-e8-a7-a3/" rel="next" title="Nginx配置文件详解">
+                <i class="fa fa-chevron-left"></i> Nginx配置文件详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/10/gitflow--e6-bc-94-e7-a4-ba-e5-b1-81-e5-b1-81-e8-b8-a2/" rel="prev" title="GitFlow工作流介绍和使用">
+                GitFlow工作流介绍和使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://blog.iwannarun.cn/content/images/2017/09/funny.gif"
+                alt="RUN" />
+            
+              <p class="site-author-name" itemprop="name">RUN</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/iwannarun" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/tromsos" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#graylog-安装配置"><span class="nav-number">1.</span> <span class="nav-text">graylog 安装配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Graylog-Collector-Sidecar"><span class="nav-number">1.1.</span> <span class="nav-text">Graylog Collector Sidecar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收集成果展示"><span class="nav-number">1.2.</span> <span class="nav-text">收集成果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RUN</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

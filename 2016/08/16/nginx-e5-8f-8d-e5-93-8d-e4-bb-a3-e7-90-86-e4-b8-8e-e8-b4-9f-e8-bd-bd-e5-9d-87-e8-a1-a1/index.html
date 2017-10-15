@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=" - Nginx," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Nginx的反向代理 在说啥啥反向代理之前，先说下什么是代理或者正向代理。  正向代理 A同学在大众创业、万众创新的大时代背景下开启他的创业之路，目前他遇到的最大的一个问题就是启动资金，于是他决定去找马云爸爸借钱，可想而知，最后碰一鼻子灰回来了，情急之下，他想到一个办法，找关系开后门，经过一番消息打探，原来A同学的大学老师王老师是马云的同学，于是A同学找到王老师，托王老师帮忙去马云那借500万过来">
+<meta name="keywords" content=" - Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx反向代理与负载均衡">
+<meta property="og:url" content="http://yoursite.com/2016/08/16/nginx-e5-8f-8d-e5-93-8d-e4-bb-a3-e7-90-86-e4-b8-8e-e8-b4-9f-e8-bd-bd-e5-9d-87-e8-a1-a1/index.html">
+<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blog">
+<meta property="og:description" content="Nginx的反向代理 在说啥啥反向代理之前，先说下什么是代理或者正向代理。  正向代理 A同学在大众创业、万众创新的大时代背景下开启他的创业之路，目前他遇到的最大的一个问题就是启动资金，于是他决定去找马云爸爸借钱，可想而知，最后碰一鼻子灰回来了，情急之下，他想到一个办法，找关系开后门，经过一番消息打探，原来A同学的大学老师王老师是马云的同学，于是A同学找到王老师，托王老师帮忙去马云那借500万过来">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://o6qknsods.bkt.clouddn.com/markdown-5f2d7d4ef8f5e4e30f606b4fa4fdac55.png-960.jpg">
+<meta property="og:image" content="http://o6qknsods.bkt.clouddn.com/markdown-55caf8f3b57de0f34b9457326854d514.png-960.jpg">
+<meta property="og:updated_time" content="2017-06-07T15:05:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx反向代理与负载均衡">
+<meta name="twitter:description" content="Nginx的反向代理 在说啥啥反向代理之前，先说下什么是代理或者正向代理。  正向代理 A同学在大众创业、万众创新的大时代背景下开启他的创业之路，目前他遇到的最大的一个问题就是启动资金，于是他决定去找马云爸爸借钱，可想而知，最后碰一鼻子灰回来了，情急之下，他想到一个办法，找关系开后门，经过一番消息打探，原来A同学的大学老师王老师是马云的同学，于是A同学找到王老师，托王老师帮忙去马云那借500万过来">
+<meta name="twitter:image" content="http://o6qknsods.bkt.clouddn.com/markdown-5f2d7d4ef8f5e4e30f606b4fa4fdac55.png-960.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/16/nginx-e5-8f-8d-e5-93-8d-e4-bb-a3-e7-90-86-e4-b8-8e-e8-b4-9f-e8-bd-bd-e5-9d-87-e8-a1-a1/"/>
+
+
+
+
+
+  <title>Nginx反向代理与负载均衡 | 我要稳稳的RUN's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我要稳稳的RUN's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I WANNA RUN</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/16/nginx-e5-8f-8d-e5-93-8d-e4-bb-a3-e7-90-86-e4-b8-8e-e8-b4-9f-e8-bd-bd-e5-9d-87-e8-a1-a1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RUN">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.iwannarun.cn/content/images/2017/09/funny.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nginx反向代理与负载均衡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-16T00:14:33+08:00">
+                2016-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Nginx的反向代理"><a href="#Nginx的反向代理" class="headerlink" title="Nginx的反向代理"></a>Nginx的反向代理</h1><p> 在说啥啥反向代理之前，先说下什么是代理或者正向代理。 </p>
+<h2 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h2><p> A同学在大众创业、万众创新的大时代背景下开启他的创业之路，目前他遇到的最大的一个问题就是启动资金，于是他决定去找马云爸爸借钱，可想而知，最后碰一鼻子灰回来了，情急之下，他想到一个办法，找关系开后门，经过一番消息打探，原来A同学的大学老师王老师是马云的同学，于是A同学找到王老师，托王老师帮忙去马云那借500万过来，当然最后事成了。不过马云并不知道这钱是A同学借的，马云是借给王老师的，最后由王老师转交给A同学。这里的王老师在这个过程中扮演了一个非常关键的角色，就是代理，也可以说是正向代理，王老师代替A同学办这件事，这个过程中，真正借钱的人是谁，马云是不知道的，这点非常关键。 我们常说的代理也就是只正向代理，正向代理的过程，它隐藏了真实的请求客户端，服务端不知道真实的客户端是谁，客户端请求的服务都被代理服务器代替来请求，某些科学上网工具扮演的就是典型的正向代理角色。用浏览器访问 <a href="http://www.google.com" target="_blank" rel="external">http://www.google.com</a> 时，被残忍的block，于是你可以在国外搭建一台代理服务器，让代理帮我去请求google.com，代理把请求返回的相应结构再返回给我。 <img src="http://o6qknsods.bkt.clouddn.com/markdown-5f2d7d4ef8f5e4e30f606b4fa4fdac55.png-960.jpg" alt=""></p>
+<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><p> 大家都有过这样的经历，拨打10086客服电话，可能一个地区的10086客服有几个或者几十个，你永远都不需要关心在电话那头的是哪一个，叫什么，男的，还是女的，漂亮的还是帅气的，你都不关心，你关心的是你的问题能不能得到专业的解答，你只需要拨通了10086的总机号码，电话那头总会有人会回答你，只是有时慢有时快而已。那么这里的10086总机号码就是我们说的反向代理。客户不知道真正提供服务人的是谁。 反向代理隐藏了真实的服务端，当我们请求 www.baidu.com 的时候，就像拨打10086一样，背后可能有成千上万台服务器为我们服务，但具体是哪一台，你不知道，也不需要知道，你只需要知道反向代理服务器是谁就好了，www.baidu.com 就是我们的反向代理服务器，反向代理服务器会帮我们把请求转发到真实的服务器那里去。Nginx就是性能非常好的反向代理服务器，用来做负载均衡。 <img src="http://o6qknsods.bkt.clouddn.com/markdown-55caf8f3b57de0f34b9457326854d514.png-960.jpg" alt=""> 两者的区别在于代理的对象不一样：正向代理代理的对象是客户端，反向代理代理的对象是服务端 Nginx 使用反向代理，主要是使用<code>location</code>模块下的<code>proxy_pass</code>选项。 举个栗子： <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen 80;</div><div class="line">    server_name www.baidu.com;</div><div class="line">    access_log /usr/local/var/log/nginx/access.log main;</div><div class="line">    error_log /usr/local/var/log/nginx/error.log error;</div><div class="line">    location / &#123;</div><div class="line">        proxy_pass http://222.222.220.1;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 如此一来，当我们访问某度的时候，Nginx将我们的请求转发到真实服务器<code>222.222.220.1</code>那里，然后将我们需要的数据返回，而作为客户端的我们实际并不知道这幕后真正处理请求的服务器是谁。 </p>
+<h1 id="Nginx的负载均衡"><a href="#Nginx的负载均衡" class="headerlink" title="Nginx的负载均衡"></a>Nginx的负载均衡</h1><p> 先简单说下负载均衡是干嘛的？再举个栗子：我们的小网站，刚开始就一台nginx服务器，后来，随着业务量增大，用户增多，一台服务器已经不够用了，我们就又多加了几台服务器。那么这几台服务器如何调度？如何均匀的提供访问？这就是负载均衡。 负载均衡的好处是可以集群多台机器一起工作，并且对外的IP 和 域名是一样的，外界看起来就好像一台机器一样。 Nginx 的 upstream目前支持 4 种方式的分配 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">1)、轮询（默认） </div><div class="line">      每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。 </div><div class="line">2)、weight </div><div class="line">      指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。 </div><div class="line">2)、ip_hash </div><div class="line">      每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。  </div><div class="line">3)、fair（第三方） </div><div class="line">      按后端服务器的响应时间来分配请求，响应时间短的优先分配。  </div><div class="line">4)、url_hash（第三方）</div></pre></td></tr></table></figure></p>
+<p> 先来个最简单的 </p>
+<h2 id="基于weight-权重的负载"><a href="#基于weight-权重的负载" class="headerlink" title="基于weight 权重的负载"></a>基于weight 权重的负载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">upstream webservers&#123;</div><div class="line">    server 192.168.33.11  weight=1 max_fails=2 fail_timeout=30s;</div><div class="line">    server 192.168.33.12  weight=1 max_fails=2 fail_timeout=30s;</div><div class="line">    server 192.168.33.13  weight=1 max_fails=2 fail_timeout=30s;</div><div class="line">&#125;</div><div class="line">server &#123;</div><div class="line">    listen 80;</div><div class="line">    server_name upstream.iyangyi.com;</div><div class="line">    access_log /usr/local/var/log/access.log main;</div><div class="line">    error_log /usr/local/var/log/nginx/error.log error;</div><div class="line">    location / &#123;</div><div class="line">        proxy_pass http://webservers;</div><div class="line">        proxy_set_header  X-Real-IP  $remote_addr;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 其中： <code>max_fails</code>: 允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。 <code>fail_timeout</code> : 在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用，进行健康状态检查。 我们再来继续看剩下几个参数 : down和backup <code>down</code> 表示这台机器暂时不参与负载均衡。相当于注释掉了。 <code>backup</code> 表示这台机器是备用机器，是其他的机器不能用的时候，这台机器才会被使用，俗称备胎 O__O “… 我们继续来做实验，改一下，先把web1改成down，然后将web3改成backup: <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream webservers&#123;</div><div class="line">    server 192.168.33.11 down;</div><div class="line">    server 192.168.33.12 weight=10 max_fails=2 fail_timeout=30s;</div><div class="line">    server 192.168.33.13 backup;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 重启下nginx，然后刷新下，不管怎么刷新，请求都将进入<code>192.168.33.12</code>。 接下来，我们将12上的 的服务停掉： <code>sudo /usr/sbin/第二台服务 stop</code> 然后，我们再刷新下网页，通过日志可以看到我们访问<code>192.168.33.13</code>； </p>
+<h2 id="基于-ip-hash-的负载"><a href="#基于-ip-hash-的负载" class="headerlink" title="基于 ip_hash 的负载"></a>基于 ip_hash 的负载</h2><p> 这种分配方式，每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。 动手看怎么操作： <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream webservers&#123;</div><div class="line">    ip_hash;</div><div class="line">    server 192.168.33.11 weight=1 max_fails=2 fail_timeout=30s;</div><div class="line">    server 192.168.33.12 weight=1 max_fails=2 fail_timeout=30s;</div><div class="line">    server 192.168.33.13 down;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 重启nginx，我们刷新，发现，再怎么刷<code>192.168.33.11</code>，都会进入固定的了。 我们讲12的权重该大一点： upstream webservers{ ip_hash; server 192.168.33.11 weight=1 max_fails=2 fail_timeout=30s; server 192.168.33.12 weight=2 max_fails=2 fail_timeout=30s; server 192.168.33.13 down; } 这样就会永远是<code>192.168.33.12</code>了。 我们试着把<code>192.168.33.12</code>服务关掉，再刷新，服务会全部进到<code>192.168.33.11</code>，已经切换过来了。 &gt; 注意</p>
+<p> ip_hash 模式下，最好不要设置weight参数，因为你设置了，就相当于手动设置了，将会导致很多的流量分配不均匀。 ip_hash模式下, backup参数不可用，加了会报错，为啥呢？因为，本身我们的访问就是固定的了，其实，备用已经不管什么作用了。 </p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://foofish.net/proxy-and-reverse-proxy.html" target="_blank" rel="external">正向代理与反向代理</a></li>
+<li><a href="https://www.zybuluo.com/phper/note/90310" target="_blank" rel="external">nginx的配置、虚拟主机、负载均衡和反向代理（2）</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag">#  - Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/06/mysql-e5-9c-a8mac-e5-ae-89-e8-a3-85-e6-97-b6-e5-bf-98-e8-ae-b0-e5-88-9d-e5-a7-8b-e9-9a-8f-e6-9c-ba-e5-af-86-e7-a0-81-e7-9a-84-e8-a7-a3-e5-86-b3-e5-8a-/" rel="next" title="Mysql在MAC安装时忘记初始随机密码的解决办法">
+                <i class="fa fa-chevron-left"></i> Mysql在MAC安装时忘记初始随机密码的解决办法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/16/nginx-e9-85-8d-e7-bd-ae-e6-96-87-e4-bb-b6-e8-af-a6-e8-a7-a3/" rel="prev" title="Nginx配置文件详解">
+                Nginx配置文件详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://blog.iwannarun.cn/content/images/2017/09/funny.gif"
+                alt="RUN" />
+            
+              <p class="site-author-name" itemprop="name">RUN</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/iwannarun" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/tromsos" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx的反向代理"><span class="nav-number">1.</span> <span class="nav-text">Nginx的反向代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正向代理"><span class="nav-number">1.1.</span> <span class="nav-text">正向代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反向代理"><span class="nav-number">1.2.</span> <span class="nav-text">反向代理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx的负载均衡"><span class="nav-number">2.</span> <span class="nav-text">Nginx的负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于weight-权重的负载"><span class="nav-number">2.1.</span> <span class="nav-text">基于weight 权重的负载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-ip-hash-的负载"><span class="nav-number">2.2.</span> <span class="nav-text">基于 ip_hash 的负载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RUN</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

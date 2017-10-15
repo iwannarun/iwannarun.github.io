@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、SQL注入攻击 解决方案：  前端页面校验用户的输入数据（限制用户输入的类型、范围、格式、长度等）。 后端对提交的数据进行严格校验，数据存储时不要使用“+”号拼接sql，采用预编译sql，防止注入！ 使用自定义错误页，防止用户通过服务器默认的错误页面找到服务器漏洞。  二、XSS跨站脚本攻击 攻击方式：基于DOM的XSS即通过浏览器来直接运行js脚本，无须提交服务器，从客户端的代码引起的。 如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web常见攻击手段和维护">
+<meta property="og:url" content="http://yoursite.com/2017/06/17/web/index.html">
+<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blog">
+<meta property="og:description" content="一、SQL注入攻击 解决方案：  前端页面校验用户的输入数据（限制用户输入的类型、范围、格式、长度等）。 后端对提交的数据进行严格校验，数据存储时不要使用“+”号拼接sql，采用预编译sql，防止注入！ 使用自定义错误页，防止用户通过服务器默认的错误页面找到服务器漏洞。  二、XSS跨站脚本攻击 攻击方式：基于DOM的XSS即通过浏览器来直接运行js脚本，无须提交服务器，从客户端的代码引起的。 如">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-17T13:18:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web常见攻击手段和维护">
+<meta name="twitter:description" content="一、SQL注入攻击 解决方案：  前端页面校验用户的输入数据（限制用户输入的类型、范围、格式、长度等）。 后端对提交的数据进行严格校验，数据存储时不要使用“+”号拼接sql，采用预编译sql，防止注入！ 使用自定义错误页，防止用户通过服务器默认的错误页面找到服务器漏洞。  二、XSS跨站脚本攻击 攻击方式：基于DOM的XSS即通过浏览器来直接运行js脚本，无须提交服务器，从客户端的代码引起的。 如">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/17/web/"/>
+
+
+
+
+
+  <title>Web常见攻击手段和维护 | 我要稳稳的RUN's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我要稳稳的RUN's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">I WANNA RUN</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/17/web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RUN">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.iwannarun.cn/content/images/2017/09/funny.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Web常见攻击手段和维护</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-17T21:12:19+08:00">
+                2017-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>一、SQL注入攻击</strong></p>
+<p>解决方案：</p>
+<ol>
+<li>前端页面校验用户的输入数据（限制用户输入的类型、范围、格式、长度等）。</li>
+<li>后端对提交的数据进行严格校验，数据存储时不要使用“+”号拼接sql，采用预编译sql，防止注入！</li>
+<li>使用自定义错误页，防止用户通过服务器默认的错误页面找到服务器漏洞。</li>
+</ol>
+<p><strong>二、XSS跨站脚本攻击</strong></p>
+<p>攻击方式：基于DOM的XSS即通过浏览器来直接运行js脚本，无须提交服务器，从客户端的代码引起的。</p>
+<pre><code>如：其实就是发送一个合法的地址加自己的脚本，比如：
+</code></pre> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">www.xxx.com/search?wd=&lt;script&gt;...&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p> 受害者点击的是<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">www.xxx.com/search?wd=&lt;script&gt;...&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p> 链接，然后受害者的浏览网页就加入这个恶意代码。存储XSS攻击即通过输入框提交js脚本或者上传文件到服务器，从网站的数据库引起的攻击。反射XSS攻击即通过url提交js脚本到服务器，从受害人的请求发起引起的攻击。 目的：盗取用户的登陆账户密码，收集用户的cookie等敏感信息。 解决方案：后端输出页面的时候将参数进行转义。如<code>&lt;script&gt;</code>转义成 <code>&lt;script&gt;</code>过滤用户输入。 注意：xss攻击的地方很多，html、css、js都有可能会被注入威胁。 </p>
+<p><strong>三、CSRF跨站请求伪造攻击</strong> </p>
+<p>攻击方式：利用收集到的用户cookie或其他敏感信息，使用httpclient等工具模拟请求，盗取用户信息。 解决方案：验证HTTP Referer字段，服务器端生成一次性token，请求时验证token。 </p>
+<p><strong>四、DoS攻击</strong></p>
+<p>攻击方式：Ping Flood攻击即利用ping命令不停的发送的数据包到服务器，占用服务器带宽，直到网络瘫痪。SYN Flood攻击即利用tcp协议原理，伪造受害者的ip地址，一直保持与服务器的连接，导致受害者连接服务器的时候拒绝服务。 </p>
+<p>解决方案：设置防火墙。使用阿里云高防IP。 </p>
+<p><strong>五、ARP欺骗——常见的窃取资料的安全性问题</strong></p>
+<p>攻击方式：利用ARP欺骗，伪造成网关，让受害者的数据经过攻击者的电脑，从而抓取别人的用户信息。 解决方案：强烈要求数据必须加密传输，启动https协议。</p>
+<p><strong>六、中间人攻击（会话劫持）—–常见的窃取资料的安全性问题</strong></p>
+<p>攻击方式：劫持会话cookies，把受害者（A）与受害者（B）之间通信经过攻击者的电脑。（常见于在线聊天系统） </p>
+<p>解决方案：用户进行二次验证，随机产生会话ID，会话cookies设置httponly。 </p>
+<p>cookies的两种类型 </p>
+<ul>
+<li>会话cookies : 建立会话的cookies，关闭浏览器失效。 </li>
+<li>持久性cookies: 持久保存本地的cookies，到期失效。 会话cookies ！= session cookies会受到XSS，CSRF攻击。（把恶意代码存放到cookies里面） </li>
+</ul>
+<p><strong>七、其他注意的点</strong> </p>
+<p>限制上传文件的类型和权限，防止用户上传jsp和服务器脚本！ 删除服务器默认的示例demo，如tomcat下的webapps下的默认文件！ 关注使用到的技术的更新，如：struts2的远程执行漏洞。及时更新到bug fixed版本。</p>
+<p>转自<a href="http://www.dreamlu.net" target="_blank" rel="external">如梦技术</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/tomcat-e9-87-8d-e5-90-af-e8-84-9a-e6-9c-ac/" rel="next" title="Tomcat重新部署和备份脚本">
+                <i class="fa fa-chevron-left"></i> Tomcat重新部署和备份脚本
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/03/yi-duan-pi-liang-cha-ru-sql/" rel="prev" title="一段批量插入sql脚本">
+                一段批量插入sql脚本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://blog.iwannarun.cn/content/images/2017/09/funny.gif"
+                alt="RUN" />
+            
+              <p class="site-author-name" itemprop="name">RUN</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/iwannarun" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/tromsos" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RUN</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
