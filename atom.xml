@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>我要稳稳的RUN&#39;s Blog</title>
+  <title>我要稳稳的RUN&#39;s Blogss</title>
   
   <subtitle>I WANNA RUN</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-01T16:55:55.000Z</updated>
+  <updated>2017-10-18T06:07:24.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2017/10/01/My-New-Post/"/>
     <id>http://yoursite.com/2017/10/01/My-New-Post/</id>
     <published>2017-10-01T15:41:47.000Z</published>
-    <updated>2017-10-01T16:55:55.000Z</updated>
+    <updated>2017-10-18T06:07:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>  首先，这是在Hexo的第一篇博客，那么就先来说说选择Hexo的理由。<br>  由于自己懒癌，原先的Ghost这几个月都没更新了。并非不想记录，而是每次想记点东西的时候想到Ghost写个博客需要先登录博客后台(手动输入博客域名/ghost)，接着输入账号密码(浏览器通常没存)，写的时候又要在编辑器上调整格式，发布后预览检查主题带来的显示差异…想到这总嫌麻烦就不写了。<br>  现在有了Hexo，记录博客的方式发生了质的改变。 创建一篇新的文章，本地写好MD文件，保存一下后就是类似提交文件到预置的git仓库的操作，<code>hexo deploy</code>一下就自动发布到gitpage了，这样的一套操作下来真的是如丝顺滑，颇有持续集成的感觉。<br>  至于这款博客其他的功能体验，目前单博客的配置方式就足够吸引我了。Hexo以.yml语法进行站点配置对于程序员来说是友好的。<code>gayhub.com</code>上前端大大们开源的主题看了一圈，大都还挺有新意的，可玩性会比Ghost高些。其他部分还在体验当中。</p><p> So，后续会把阿里云机器上ghost博客迁移到这里来，想想每个月省下的主机费用还可以多几买本书或者女票的口红，嗯乐滋滋。</p>]]></content>
     
@@ -34,6 +34,8 @@
     
     </summary>
     
+    
+      <category term="文章" scheme="http://yoursite.com/tags/%E6%96%87%E7%AB%A0/"/>
     
   </entry>
   
@@ -59,7 +61,7 @@
     </summary>
     
     
-      <category term=" - Java" scheme="http://yoursite.com/tags/Java/"/>
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
     
   </entry>
   
@@ -81,6 +83,8 @@
     
     </summary>
     
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
     
   </entry>
   
@@ -107,6 +111,8 @@
     </summary>
     
     
+      <category term="Web" scheme="http://yoursite.com/tags/Web/"/>
+    
   </entry>
   
   <entry>
@@ -131,7 +137,9 @@
     </summary>
     
     
-      <category term=" - Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="Tomcat" scheme="http://yoursite.com/tags/Tomcat/"/>
     
   </entry>
   
@@ -154,7 +162,11 @@
     </summary>
     
     
-      <category term=" - Linux - 效率工具" scheme="http://yoursite.com/tags/Linux-%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="效率工具" scheme="http://yoursite.com/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="Shell" scheme="http://yoursite.com/tags/Shell/"/>
     
   </entry>
   
@@ -177,7 +189,11 @@
     </summary>
     
     
-      <category term=" - Linux - 消息队列" scheme="http://yoursite.com/tags/Linux-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="消息队列" scheme="http://yoursite.com/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
+    
+      <category term="Kafka" scheme="http://yoursite.com/tags/Kafka/"/>
     
   </entry>
   
@@ -188,12 +204,21 @@
     <published>2017-06-02T09:52:55.000Z</published>
     <updated>2017-06-07T13:09:55.000Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="zookeeper服务集群搭建-基于docker"><a href="#zookeeper服务集群搭建-基于docker" class="headerlink" title="zookeeper服务集群搭建(基于docker)"></a>zookeeper服务集群搭建(基于docker)</h1><blockquote><p>如果启动容器的时候使用–net host模式，那么这个容器将和宿主机共用一个Network Namespace。这时Docker Engine将不会为容器创建veth pair并配置IP等，而是直接使用宿主机的网络配置，就如直接跑在宿主机中的进程一样。注意，这时容器的其他资源，如文件系统、进程列表等还是和宿主机隔离的。 利用host网络，容器的IP地址和机器节点一致，这样我们在部署容器之前就能确定每个ZK节点的IP地址。我们可以分别在三台的机器上用host模式启动一个ZK容器并配置一个分布式集群。</p></blockquote><h2 id="对三台服务器进行zookeeper集群搭建："><a href="#对三台服务器进行zookeeper集群搭建：" class="headerlink" title="对三台服务器进行zookeeper集群搭建："></a>对三台服务器进行zookeeper集群搭建：</h2><h3 id="服务器A："><a href="#服务器A：" class="headerlink" title="服务器A："></a>服务器A：</h3><pre><code>docker run -d \ --name=zk1 \ --net=host \ -e SERVER_ID=1 \ -e ADDITIONAL_ZOOKEEPER_1=server.1=192.168.199.248:2888:3888 \ -e ADDITIONAL_ZOOKEEPER_2=server.2=192.168.199.170:2888:3888 \ -e ADDITIONAL_ZOOKEEPER_3=server.3=192.168.199.146:2888:3888 \ registry.aliyuncs.com/acs-sample/zookeeper:3.4.8</code></pre><h3 id="服务器B："><a href="#服务器B：" class="headerlink" title="服务器B："></a>服务器B：</h3><pre><code>docker run -d \ --name=zk2 \ --net=host \ -e SERVER_ID=2 \ -e ADDITIONAL_ZOOKEEPER_1=server.1=192.168.199.248:2888:3888 \ -e ADDITIONAL_ZOOKEEPER_2=server.2=192.168.199.170:2888:3888 \ -e ADDITIONAL_ZOOKEEPER_3=server.3=192.168.199.146:2888:3888 \registry.aliyuncs.com/acs-sample/zookeeper:3.4.8</code></pre><h3 id="服务器C："><a href="#服务器C：" class="headerlink" title="服务器C："></a>服务器C：</h3><pre><code>docker run -d \ --name=zk3 \ --net=host \ -e SERVER_ID=3 \ -e ADDITIONAL_ZOOKEEPER_1=server.1=192.168.199.248:2888:3888 \ -e ADDITIONAL_ZOOKEEPER_2=server.2=192.168.199.170:2888:3888 \ -e ADDITIONAL_ZOOKEEPER_3=server.3=192.168.199.146:2888:3888 \registry.aliyuncs.com/acs-sample/zookeeper:3.4.8</code></pre><h2 id="验证集群搭建情况"><a href="#验证集群搭建情况" class="headerlink" title="验证集群搭建情况"></a>验证集群搭建情况</h2><pre><code>telnet 192.168.199.248 2181 &gt; stat</code></pre><p>   可以看到各台服务器状态，一台leader和多台flower即可说明集群搭建成功</p>]]></content>
+    
     <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;zookeeper服务集群搭建-基于docker&quot;&gt;&lt;a href=&quot;#zookeeper服务集群搭建-基于docker&quot; class=&quot;headerlink&quot; title=&quot;zookeeper服务集群搭建(基于docker)&quot;&gt;&lt;/a&gt;zookeeper服务集群
+      
     
     </summary>
     
     
-      <category term=" - Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
     
   </entry>
   
@@ -217,7 +242,9 @@
     </summary>
     
     
-      <category term=" - Linux - 日志收集" scheme="http://yoursite.com/tags/Linux-%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="日志收集" scheme="http://yoursite.com/tags/%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     
   </entry>
   
@@ -241,7 +268,7 @@
     </summary>
     
     
-      <category term=" - 网络协议" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/"/>
+      <category term="网络协议" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/"/>
     
   </entry>
   
@@ -264,7 +291,7 @@
     </summary>
     
     
-      <category term=" - Docker" scheme="http://yoursite.com/tags/Docker/"/>
+      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
     
   </entry>
   
@@ -287,7 +314,9 @@
     </summary>
     
     
-      <category term=" - 持续集成 - Gitlab" scheme="http://yoursite.com/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90-Gitlab/"/>
+      <category term="持续集成" scheme="http://yoursite.com/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
+    
+      <category term="Gitlab" scheme="http://yoursite.com/tags/Gitlab/"/>
     
   </entry>
   
@@ -310,7 +339,7 @@
     </summary>
     
     
-      <category term=" - 持续集成" scheme="http://yoursite.com/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
+      <category term="持续集成" scheme="http://yoursite.com/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
     
   </entry>
   
@@ -333,7 +362,7 @@
     </summary>
     
     
-      <category term=" - Jenkins" scheme="http://yoursite.com/tags/Jenkins/"/>
+      <category term="Jenkins" scheme="http://yoursite.com/tags/Jenkins/"/>
     
   </entry>
   
@@ -359,7 +388,7 @@
     </summary>
     
     
-      <category term=" - Git" scheme="http://yoursite.com/tags/Git/"/>
+      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
     
   </entry>
   
@@ -385,7 +414,9 @@
     </summary>
     
     
-      <category term=" - Gradle - 构建工具" scheme="http://yoursite.com/tags/Gradle-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"/>
+      <category term="Gradle" scheme="http://yoursite.com/tags/Gradle/"/>
+    
+      <category term="构建工具" scheme="http://yoursite.com/tags/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -411,7 +442,13 @@
     </summary>
     
     
-      <category term=" - Gradle - Maven - 构建工具 - 效率工具" scheme="http://yoursite.com/tags/Gradle-Maven-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7-%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
+      <category term="效率工具" scheme="http://yoursite.com/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="Gradle" scheme="http://yoursite.com/tags/Gradle/"/>
+    
+      <category term="构建工具" scheme="http://yoursite.com/tags/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="Maven" scheme="http://yoursite.com/tags/Maven/"/>
     
   </entry>
   
@@ -436,7 +473,9 @@
     </summary>
     
     
-      <category term=" - Git - 效率工具" scheme="http://yoursite.com/tags/Git-%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
+      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+    
+      <category term="效率工具" scheme="http://yoursite.com/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -463,6 +502,8 @@
     </summary>
     
     
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
   </entry>
   
   <entry>
@@ -487,7 +528,13 @@
     </summary>
     
     
-      <category term=" - Java - SpringBoot - Docker - Gradle" scheme="http://yoursite.com/tags/Java-SpringBoot-Docker-Gradle/"/>
+      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
+    
+      <category term="Gradle" scheme="http://yoursite.com/tags/Gradle/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="SpringBoot" scheme="http://yoursite.com/tags/SpringBoot/"/>
     
   </entry>
   

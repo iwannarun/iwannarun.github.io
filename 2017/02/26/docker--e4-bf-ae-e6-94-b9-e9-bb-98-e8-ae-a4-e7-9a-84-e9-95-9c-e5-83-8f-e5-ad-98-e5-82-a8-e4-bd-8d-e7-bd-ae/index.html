@@ -68,13 +68,13 @@
 
 
 
-  <meta name="keywords" content=" - NoSql," />
+  <meta name="keywords" content="NoSql,Redis," />
 
 
 
 
 
-  <link rel="alternate" href="/atom.xml" title="我要稳稳的RUN's Blog" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="我要稳稳的RUN's Blogss" type="application/atom+xml" />
 
 
 
@@ -82,11 +82,11 @@
 
 
 <meta name="description" content="Redis除了常见的任务队列和优先级队列之外，提供了一种类似JMS中”发布/订阅”的模式。这个模式中包含两个角色，包含发布者和订阅者。 订阅者可以订阅一个或多个(channel)，而发布者可以向指定的频道发送消息，所有订阅该频道的订阅者都会收到此消息。  发布者发布消息的命令是PUBLISH [channel] [message]12redis&amp;gt;PUBLIC channel hello（I">
-<meta name="keywords" content=" - NoSql">
+<meta name="keywords" content="NoSql,Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis消息通知之&quot;发布&#x2F;订阅&quot;模式">
 <meta property="og:url" content="http://yoursite.com/2017/02/26/docker--e4-bf-ae-e6-94-b9-e9-bb-98-e8-ae-a4-e7-9a-84-e9-95-9c-e5-83-8f-e5-ad-98-e5-82-a8-e4-bd-8d-e7-bd-ae/index.html">
-<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blog">
+<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blogss">
 <meta property="og:description" content="Redis除了常见的任务队列和优先级队列之外，提供了一种类似JMS中”发布/订阅”的模式。这个模式中包含两个角色，包含发布者和订阅者。 订阅者可以订阅一个或多个(channel)，而发布者可以向指定的频道发送消息，所有订阅该频道的订阅者都会收到此消息。  发布者发布消息的命令是PUBLISH [channel] [message]12redis&amp;gt;PUBLIC channel hello（I">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-02-27T13:11:11.000Z">
@@ -111,9 +111,9 @@
       author: '博主'
     },
     algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
+      applicationID: 'IGNJ2KF5V6',
+      apiKey: 'faf94c3620d6ff8b24a9a6f48e6ea18f',
+      indexName: 'blog_product',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
@@ -128,7 +128,7 @@
 
 
 
-  <title>Redis消息通知之"发布/订阅"模式 | 我要稳稳的RUN's Blog</title>
+  <title>Redis消息通知之"发布/订阅"模式 | 我要稳稳的RUN's Blogss</title>
   
 
 
@@ -168,7 +168,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">我要稳稳的RUN's Blog</span>
+        <span class="site-title">我要稳稳的RUN's Blogss</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -203,6 +203,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -214,9 +234,47 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
   
 </nav>
 
@@ -254,7 +312,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+      <meta itemprop="name" content="我要稳稳的RUN's Blogss">
     </span>
 
     
@@ -400,7 +458,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/NoSql/" rel="tag">#  - NoSql</a>
+            <a href="/tags/NoSql/" rel="tag"># NoSql</a>
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -526,10 +586,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -786,6 +846,19 @@
   
 
 
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
 
 
 

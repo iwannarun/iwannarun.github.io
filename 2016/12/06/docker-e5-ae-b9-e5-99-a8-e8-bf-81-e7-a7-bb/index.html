@@ -68,13 +68,13 @@
 
 
 
-  <meta name="keywords" content=" - Docker," />
+  <meta name="keywords" content="Docker," />
 
 
 
 
 
-  <link rel="alternate" href="/atom.xml" title="我要稳稳的RUN's Blog" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="我要稳稳的RUN's Blogss" type="application/atom+xml" />
 
 
 
@@ -82,11 +82,11 @@
 
 
 <meta name="description" content="12最近没啥安全感，对服务器也是（其实是担心花费了一些心血搭起的服务受不可抗拒的因素挂了，重新搭起来又需要消耗时间)，于是倒不如趁有空的时候想想方案，有备无患。其实灵活、易迁移本来就是docker的特性，特别适用于生成交付过程、系统升级或服务器迁移，能够以极小的代价和极高的效率完成&amp;quot;克隆&amp;quot;。 主要的迁移方式有：容器迁移和镜像迁移 首先是基于容器的迁移：  导出容器 如果要导出本">
-<meta name="keywords" content=" - Docker">
+<meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker容器迁移">
 <meta property="og:url" content="http://yoursite.com/2016/12/06/docker-e5-ae-b9-e5-99-a8-e8-bf-81-e7-a7-bb/index.html">
-<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blog">
+<meta property="og:site_name" content="我要稳稳的RUN&#39;s Blogss">
 <meta property="og:description" content="12最近没啥安全感，对服务器也是（其实是担心花费了一些心血搭起的服务受不可抗拒的因素挂了，重新搭起来又需要消耗时间)，于是倒不如趁有空的时候想想方案，有备无患。其实灵活、易迁移本来就是docker的特性，特别适用于生成交付过程、系统升级或服务器迁移，能够以极小的代价和极高的效率完成&amp;quot;克隆&amp;quot;。 主要的迁移方式有：容器迁移和镜像迁移 首先是基于容器的迁移：  导出容器 如果要导出本">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-06-07T14:55:12.000Z">
@@ -111,9 +111,9 @@
       author: '博主'
     },
     algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
+      applicationID: 'IGNJ2KF5V6',
+      apiKey: 'faf94c3620d6ff8b24a9a6f48e6ea18f',
+      indexName: 'blog_product',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
@@ -128,7 +128,7 @@
 
 
 
-  <title>Docker容器迁移 | 我要稳稳的RUN's Blog</title>
+  <title>Docker容器迁移 | 我要稳稳的RUN's Blogss</title>
   
 
 
@@ -168,7 +168,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">我要稳稳的RUN's Blog</span>
+        <span class="site-title">我要稳稳的RUN's Blogss</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -203,6 +203,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -214,9 +234,47 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
   
 </nav>
 
@@ -254,7 +312,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+      <meta itemprop="name" content="我要稳稳的RUN's Blogss">
     </span>
 
     
@@ -379,7 +437,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Docker/" rel="tag">#  - Docker</a>
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
           
         </div>
       
@@ -505,10 +563,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">标签</span>
-                
+                </a>
               </div>
             
 
@@ -765,6 +823,19 @@
   
 
 
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.3"></script>
 
 
 
