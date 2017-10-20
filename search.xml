@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[你看那个人好像一条狗哦]]></title>
+    <url>%2F2017%2F10%2F20%2F%E4%BD%A0%E7%9C%8B%E9%82%A3%E4%B8%AA%E4%BA%BA%E5%A5%BD%E5%83%8F%E4%B8%80%E6%9D%A1%E7%8B%97%E5%93%A6%2F</url>
+    <content type="text"><![CDATA[]]></content>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[你好，Hexo]]></title>
     <url>%2F2017%2F10%2F01%2FMy-New-Post%2F</url>
     <content type="text"><![CDATA[首先，这是在Hexo的第一篇博客，那么就先来说说选择Hexo的理由。 由于自己懒癌，原先的Ghost这几个月都没更新了。并非不想记录，而是每次想记点东西的时候想到Ghost写个博客需要先登录博客后台(手动输入博客域名/ghost)，接着输入账号密码(浏览器通常没存)，写的时候又要在编辑器上调整格式，发布后预览检查主题带来的显示差异…想到这总嫌麻烦就不写了。 现在有了Hexo，记录博客的方式发生了质的改变。 创建一篇新的文章，本地写好MD文件，保存一下后就是类似提交文件到预置的git仓库的操作，hexo deploy一下就自动发布到gitpage了，这样的一套操作下来真的是如丝顺滑，颇有持续集成的感觉。 至于这款博客其他的功能体验，目前单博客的配置方式就足够吸引我了。Hexo以.yml语法进行站点配置对于程序员来说是友好的。gayhub.com上前端大大们开源的主题看了一圈，大都还挺有新意的，可玩性会比Ghost高些。其他部分还在体验当中。 So，后续会把阿里云机器上ghost博客迁移到这里来，想想每个月省下的主机费用还可以多几买本书或者女票的口红，嗯乐滋滋。]]></content>

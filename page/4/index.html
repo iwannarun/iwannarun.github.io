@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -95,7 +95,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
+    scheme: 'Pisces',
     version: '5.1.3',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -291,6 +291,154 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/03/mac-e4-b8-8biterm-e3-80-81zsh-e3-80-81autojump-e7-9a-84-e5-ae-8c-e7-be-8e-e7-bb-93-e5-90-88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="RUN">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.iwannarun.cn/content/images/2017/09/funny.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我要稳稳的RUN's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/12/03/mac-e4-b8-8biterm-e3-80-81zsh-e3-80-81autojump-e7-9a-84-e5-ae-8c-e7-be-8e-e7-bb-93-e5-90-88/" itemprop="url">Mac下iTerm、zsh、autojump的完美结合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-03T02:41:12+08:00">
+                2016-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/12/03/mac-e4-b8-8biterm-e3-80-81zsh-e3-80-81autojump-e7-9a-84-e5-ae-8c-e7-be-8e-e7-bb-93-e5-90-88/" class="leancloud_visitors" data-flag-title="Mac下iTerm、zsh、autojump的完美结合">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh:"></a>安装zsh:</h1><ul>
+<li>Mac预装了zsh，通过<code>cat /etc/shells</code>可以查看:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/bin/bash</div><div class="line">/bin/csh</div><div class="line">/bin/ksh</div><div class="line">/bin/sh</div><div class="line">/bin/tcsh</div><div class="line">/bin/zsh</div></pre></td></tr></table></figure>
+<ul>
+<li><p>linux: 可以通过<code>sudo yum install zsh</code> 或 <code>sudo apt-get install zsh</code>来进行安装</p>
+<p>安装完成后设置当前用户使用 <code>zsh：chsh -s /bin/zsh</code>，根据提示输入当前用户的密码就可以了。 &gt; 国外有个穷极无聊的程序员开发出了一个能够让你快速上手的zsh项目，叫做「oh my zsh」，Github 网址是：<a href="https://github.com/robbyrussell/oh-my-zsh。这玩意就像「X天叫你学会" target="_blank" rel="external">https://github.com/robbyrussell/oh-my-zsh。这玩意就像「X天叫你学会</a> C++」系列，可以让你神功速成，而且是真的。</p>
+</li>
+</ul>
+<h1 id="安装oh-my-zsh"><a href="#安装oh-my-zsh" class="headerlink" title="安装oh my zsh"></a>安装oh my zsh</h1><p> -自动安装：<code>wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</code> -手动安装: <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</div><div class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</div></pre></td></tr></table></figure></p>
+<p> 安装完毕，对iTerm2进行终端指定 <img src="http://o6qknsods.bkt.clouddn.com/markdown-8338aecf7b950e8098f47bea86a8ca4a.png-960.jpg" alt=""> 新建一个终端页面，即可显示效果: <img src="http://o6qknsods.bkt.clouddn.com/markdown-712bd7b891f7bb769ec400f3cef087f4.png-960.jpg" alt="">- 安装autojump插件 mac:<code>brew install autojump</code> 执行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[ -s /root/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /root/.autojump/etc/profile.d/autojump.sh</div></pre></td></tr></table></figure></p>
+<p> linux:<code>git clone git://github.com/joelthelion/autojump.git</code> ##本地克隆完成后进入目录，执行<code>./install.py</code> 然后，将</p>
+<p> 粘贴到<code>~/.zshrc</code>中，在plugin中开启<code>autojump</code><img src="http://pic.iwannarun.cn/mdimage3bae2a20b8c76cc7cd15d28e22247958.png-960.jpg" alt=""><code>source</code>命令执行一下，使其生效。 </p>
+<h1 id="zsh的爆炸功能演示"><a href="#zsh的爆炸功能演示" class="headerlink" title="zsh的爆炸功能演示"></a>zsh的爆炸功能演示</h1><ol>
+<li>首先是『别名』功能，内置的git命令别名功能，搭配oh my zsh的主题，相当赞: <img src="http://o6qknsods.bkt.clouddn.com/markdown-5b7851c28ac14545acdd31a0f923bac5.png-960.jpg" alt=""></li>
+</ol>
+<p><img src="http://o6qknsods.bkt.clouddn.com/markdown-f5a0186f3cb6bc88ab806ed8f93ab99c.png-960.jpg" alt=""> ps:这里使用<code>quick-look</code>预览命令查看文本，按住ctrl，将鼠标移到路径上会出现超链接，点击也能达到同样效果： <img src="http://o6qknsods.bkt.clouddn.com/markdown-54827e658bcdaf21b484aa2487830dd2.png-960.jpg" alt="">1. autojump 提供的j命令:</p>
+<p><img src="http://o6qknsods.bkt.clouddn.com/markdown-bc9bb6d8863d657f0234346303aa58a7.png-960.jpg" alt=""><img src="http://o6qknsods.bkt.clouddn.com/markdown-e0f4ba2ea5f5c867b366c47c94c95520.png-960.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1553,147 +1701,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/12/jenkins-e5-ae-89-e8-a3-85-e6-96-b9-e5-bc-8f-e4-bb-8b-e7-bb-8d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="RUN">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.iwannarun.cn/content/images/2017/09/funny.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我要稳稳的RUN's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/12/jenkins-e5-ae-89-e8-a3-85-e6-96-b9-e5-bc-8f-e4-bb-8b-e7-bb-8d/" itemprop="url">Jenkins基于docker的安装方式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-12T20:56:55+08:00">
-                2016-09-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2016/09/12/jenkins-e5-ae-89-e8-a3-85-e6-96-b9-e5-bc-8f-e4-bb-8b-e7-bb-8d/" class="leancloud_visitors" data-flag-title="Jenkins基于docker的安装方式">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Jenkins安装的方式大概分为三种："><a href="#Jenkins安装的方式大概分为三种：" class="headerlink" title="Jenkins安装的方式大概分为三种："></a>Jenkins安装的方式大概分为三种：</h3><ol>
-<li>通过Tomcat运行，将官网下载的<a href="https://jenkins.io/index.html" target="_blank" rel="external">最新版jenkins</a> WAR文件直接放到Tomcat的webaps目录运行即可。</li>
-<li>在Mac上进行可以直接下载<a href="https://jenkins.io/content/thank-you-downloading-os-x-installer#stable" target="_blank" rel="external">pkg文件</a>安装。前两种方式均通过访问<a href="http://localhost:8080进入Jenkins的可视化管理界面。ps:境外网站的原因下载缓慢，建议以wget的方式下载，保证文件完整性。" target="_blank" rel="external">http://localhost:8080进入Jenkins的可视化管理界面。ps:境外网站的原因下载缓慢，建议以wget的方式下载，保证文件完整性。</a></li>
-<li>Docker的方式：将jenkins运行在容器当中 。（推荐）</li>
-</ol>
-<h3 id="Docker方式的安装过程："><a href="#Docker方式的安装过程：" class="headerlink" title="Docker方式的安装过程："></a>Docker方式的安装过程：</h3><p> 通过官方镜像源拉取镜像：<code>https://hub.docker.com/_/jenkins/</code>，由于拉取速度实在太慢的原因，不推荐。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --name myjenkins -d -p 8080:8080 -v /var/jenkins_home jenkins</div></pre></td></tr></table></figure></p>
-<p> 参数不详细解释，详情见 <a href="https://yeasy.gitbooks.io/docker_practice" target="_blank" rel="external">docker常用命令及入门教程</a> 相对较快的另一种方法，采取通过官方jenkins源码构建镜像的方式,首先拉取源码： <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/jenkinsci/docker.git</div></pre></td></tr></table></figure></p>
-<p> 然后build+Dockerfile构建jenkins镜像 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t xhuabu/jenkins .</div></pre></td></tr></table></figure></p>
-<p> 镜像构建成功后（总共21个Step，Dockerfile共21条指令），使用docker images查看镜像， <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker images</div></pre></td></tr></table></figure></p>
-<p> 后台跑起容器，同时指定日志配置文件及挂载目录： <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir data</div><div class="line">cat &gt; data/log.properties &lt;&lt;EOF</div><div class="line">handlers=java.util.logging.ConsoleHandler</div><div class="line">jenkins.level=FINEST</div><div class="line">java.util.logging.ConsoleHandler.level=FINEST</div><div class="line">EOF</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --name myjenkins -d  -p 8080:8080 -p 50000:50000 --env JAVA_OPTS=&quot;-Djava.util.logging.config.file=/var/jenkins_home/log.properties&quot; -v `pwd`/data:/var/jenkins_home jenkins</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1748,7 +1755,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1761,7 +1768,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1853,7 +1860,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
 
 
 
@@ -1900,14 +1907,16 @@
 
 
 
-
-
   
   
 
 
 
 
+
+
+
+  
 
 
 
@@ -1933,7 +1942,10 @@
   <script type="text/javascript" src="/lib/three/three.min.js"></script>
 
   
-  <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
 
 
   
@@ -1947,6 +1959,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
 
   
 
