@@ -62,8 +62,6 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔/">随笔</a></li>
-	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -118,8 +116,6 @@
 			
 				
 			
-				
-			
 			
 			
 			<nav class="header-nav">
@@ -138,9 +134,7 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
-		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 100%"><a href="/">主页</a></li>
 		        
 				</ul>
 			</nav>
@@ -333,6 +327,19 @@ rsync -aXS /var/lib/docker/. /data/docker/
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#备份-amp-文件同步"><span class="toc-number">1.</span> <span class="toc-text">备份&文件同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭-docker-服务，用-rsync-同步-var-lib-docker到新位置"><span class="toc-number">2.</span> <span class="toc-text">关闭 docker 服务，用 rsync 同步 /var/lib/docker到新位置.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改fstab-amp-重新挂载"><span class="toc-number">3.</span> <span class="toc-text">修改fstab & 重新挂载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#然后重新挂载"><span class="toc-number">4.</span> <span class="toc-text">然后重新挂载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证："><span class="toc-number">5.</span> <span class="toc-text">验证：</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -632,26 +639,6 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           
             <li class="search-li">
               <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
             </li>
           
         </ul>
