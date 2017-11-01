@@ -470,9 +470,9 @@
     
       <category term="Gradle" scheme="http://yoursite.com/tags/Gradle/"/>
     
-      <category term="Maven" scheme="http://yoursite.com/tags/Maven/"/>
-    
       <category term="构建工具" scheme="http://yoursite.com/tags/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="Maven" scheme="http://yoursite.com/tags/Maven/"/>
     
   </entry>
   
