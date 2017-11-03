@@ -163,6 +163,109 @@ ga('send', 'pageview');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/22/linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac/">linux定时删除日志文件执行脚本</a>
+    </h1>
+  
+
+        
+        <a href="/2017/05/22/linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac/" class="archive-article-date">
+  	<time datetime="2017-05-22T14:25:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>linux是一个很能自动产生文件的系统，日志、邮件、备份等。虽然现在硬盘廉价，我们可以有很多硬盘空间供这些文件浪费，让系统定时清理一些不需要的文件很有一种爽快的事情。不用你去每天惦记着是否需要清理日志，不用每天收到硬盘空间不足的报警短信，想好好休息的话，让我们把这个事情交给机器定时去执行吧。 </p>
+</blockquote>
+<p><strong>1.删除文件命令</strong> </p>
+<pre><code>find 对应目录 -mtime +天数 -name &quot;文件名&quot; -exec rm -rf {} \; 
+</code></pre><p><strong>实例命令：</strong></p>
+<pre><code>find /opt/soft/log/ -mtime +30 -name &quot;*.log&quot; -exec rm -rf {} \; 
+</code></pre><p>说明： 将/opt/soft/log/目录下所有30天前带”.log”的文件删除。</p>
+<p>具体参数说明如下： </p>
+<ul>
+<li><code>find</code>：linux的查找命令，用户查找指定条件的文件； </li>
+<li><code>/opt/soft/log/</code>：想要进行清理的任意目录； </li>
+<li><code>-mtime</code>：标准语句写法； </li>
+<li><code>+30</code>：查找30天前的文件，这里用数字代表天数； </li>
+<li><code>&quot;*.log&quot;</code>：希望查找的数据类型，”<em>.jpg”表示查找扩展名为jpg的所有文件，”</em>“表示查找所有文件，这个可以灵活运用，举一反三； </li>
+<li><code>-exec</code>：固定写法；</li>
+<li><code>rm -rf</code>：强制删除文件，包括目录；</li>
+<li><code>{} \;</code>：固定写法，一对大括号+空格++; </li>
+</ul>
+<p><strong>2.计划任务</strong> </p>
+<p>若嫌每次手动执行语句太麻烦，可以将这小语句写到一个可执行shell脚本文件中，再设置cron调度执行，那就可以让系统自动去清理相关文件。 </p>
+<p><strong>2.1创建shell：</strong><br>    touch /opt/soft/bin/auto-del-30-days-ago-log.sh chmod +x auto-del-30-days-ago-log.sh 新建一个可执行文件auto-del-30-days-ago-log.sh，并分配可运行权限 </p>
+<p><strong>2.2编辑shell脚本：</strong> </p>
+<p>vi auto-del-30-days-ago-log.sh 编辑auto-del-30-days-ago-log.sh文件如下：</p>
+<p> #!/bin/sh<br> find /opt/soft/log/ -mtime +30 -name “*.log” -exec rm -rf {} \; ok，保存退出(:wq)。 2.3计划任务： </p>
+<p> #crontab -e<br> 将auto-del-30-days-ago-log.sh执行脚本加入到系统计划任务，到点自动执行 输入： 10 0 <em> </em> * /opt/soft/log/auto-del-7-days-ago-log.sh &gt;/dev/null 2&gt;&amp;1 这里的设置是每天凌晨0点10分执行auto-del-7-days-ago-log.sh文件进行数据清理任务了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">日志收集</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/05/22/linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-tcp-e8-bf-9e-e6-8e-a5-e7-9a-84-e6-8a-a5-e6-96-87-e5-88-b0-e8-be-be-e7-a1-ae-e8-ae-a4-e6-9c-ba-e5-88-b6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -934,114 +1037,6 @@ sdk install gradle 3.4.1&apos;
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/03/17/github-e9-80-9a-e8-bf-87ss-e4-bb-a3-e7-90-86-e5-8a-a0-e9-80-9f/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-firewalld-e7-9a-84-e5-9f-ba-e6-9c-ac-e4-bd-bf-e7-94-a8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/08/firewalld-e7-9a-84-e5-9f-ba-e6-9c-ac-e4-bd-bf-e7-94-a8/">Firewalld的基本使用</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/08/firewalld-e7-9a-84-e5-9f-ba-e6-9c-ac-e4-bd-bf-e7-94-a8/" class="archive-article-date">
-  	<time datetime="2017-03-08T11:02:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>启动： systemctl start firewalld </li>
-<li>查看状态： systemctl status firewalld </li>
-<li>停止： systemctl disable firewalld </li>
-<li>禁用： systemctl stop firewalld</li>
-</ul>
-<blockquote>
-<p>systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。</p>
-</blockquote>
-<ul>
-<li>启动一个服务：systemctl start firewalld.service </li>
-<li>关闭一个服务：systemctl stop firewalld.service</li>
-<li>重启一个服务：systemctl restart firewalld.service </li>
-<li>显示一个服务的状态：systemctl status firewalld.service 在开机时启用一个服务：systemctl enable firewalld.service 在开机时禁用一个服务：systemctl disable firewalld.service 查看服务是否开机启动：systemctl is-enabled firewalld.service </li>
-<li>查看已启动的服务列表：systemctl list-unit-files|grep enabled </li>
-<li><p>查看启动失败的服务列表：systemctl –failed </p>
-<h1 id="配置firewalld-cmd"><a href="#配置firewalld-cmd" class="headerlink" title="配置firewalld-cmd"></a>配置firewalld-cmd</h1></li>
-<li><p>查看版本： firewall-cmd –version </p>
-</li>
-<li>查看帮助： firewall-cmd –help </li>
-<li>显示状态： firewall-cmd –state </li>
-<li>查看所有打开的端口： firewall-cmd –zone=public –list-ports </li>
-<li>更新防火墙规则： firewall-cmd –reload </li>
-<li>查看区域信息: firewall-cmd –get-active-zones </li>
-<li>查看指定接口所属区域： firewall-cmd –get-zone-of-interface=eth0 </li>
-<li>拒绝所有包：firewall-cmd –panic-on </li>
-<li>取消拒绝状态： firewall-cmd –panic-off </li>
-<li><p>看是否拒绝： firewall-cmd –query-panic </p>
-<h1 id="开启指定端口呢"><a href="#开启指定端口呢" class="headerlink" title="开启指定端口呢"></a>开启指定端口呢</h1></li>
-<li><p>添加 firewall-cmd –zone=public –add-port=80/tcp –permanent （–permanent永久生效，没有此参数重启后失效）</p>
-</li>
-<li>重新载入 firewall-cmd –reload </li>
-<li>查看 firewall-cmd –zone= public –query-port=80/tcp </li>
-<li>删除 firewall-cmd –zone= public –remove-port=80/tcp –permanent</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/08/firewalld-e7-9a-84-e5-9f-ba-e6-9c-ac-e4-bd-bf-e7-94-a8/">展开全文 >></a>
         </p>
       
 

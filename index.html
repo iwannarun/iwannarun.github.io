@@ -163,6 +163,216 @@ ga('send', 'pageview');
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-如何通过自增ID生成可逆短码(链接)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/03/如何通过自增ID生成可逆短码(链接)/">如何通过自增ID生成可逆短码(链接)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/03/如何通过自增ID生成可逆短码(链接)/" class="archive-article-date">
+  	<time datetime="2017-11-03T09:51:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近有一个生成短链接(地址、标识码)的需求，需要将数据库自增ID通过策略转换或加密成一串编码，要求生成的编码不应过长，不易破解并且可随意解析出原ID。或者说，这个需求有点类似微博站点短地址(<a href="https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。" target="_blank" rel="external">https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。</a></p>
+</blockquote>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li><p>现成的可逆加密方式如AES256、DES等生成密码串过长，不符合需求(压缩也还是太长)。</p>
+</li>
+<li><p>MD5等单向加密方式，需要维护映射关系。每次访问需要查库在大数据量下影响像你，并且有一定几率发生碰撞(彩虹表)。</p>
+</li>
+<li><p>Base62加密，由<code>26个小写字母+26个大写字母+10个数字</code>共62个字符组成。将自增ID的十进制转为62进制，实现转码，并且可逆。</p>
+</li>
+</ul>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p> 通过Base62进行编码的方式可以得到相对比较精简的短码，这里虽然达到加密和压缩的效果却忽视自增ID带来的问题，Base62加密后的短码保留了”自增”的特性，容易被反解出前后编码。</p>
+<h2 id="最终方案"><a href="#最终方案" class="headerlink" title="最终方案"></a>最终方案</h2><p>查阅资料发现一种广泛应用于密码学的”Feistel算法”,具有非常奇妙的特性，那就是，在一定的数字范围内（2的n次方），每一个数字都能根据密钥找到唯一的一个匹配对象。即:</p>
+<pre><code>如果permutedId(a)=b，那么必然会有permutedId(b)=a。
+</code></pre><p>利用这个特点可轻松移除ID自增的属性，将ID转为另一个与之对应的”密码”，最后通过Base62转换得到最终符合我们的需求短码。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code>package com.xy.poker.util;
+
+import java.util.Stack;
+
+/**
+ * 将自增id转成短链接,
+ * 同时短连接可逆回自增id,
+ * 相邻自增id无规律，防破解。
+ * 基于Feistel的特性转为Base62。
+ *
+ * @author run
+ * @create 2017-11-02
+ **/
+public class ShortCodeKit {
+
+/**
+ * Feistel密码结构：如果permutedId(a)=b，那么必然会有permutedId(b)=a
+ *
+ * @param id
+ * @return
+ */
+public static Long permutedId(Long id) {
+    Long l1 = (id &gt;&gt; 16) &amp; 65535;
+    Long r1 = id &amp; 65535;
+
+    for (int i = 0; i &lt; 2; i++) {
+        Long l2 = r1;
+        Long r2 = l1 ^ (int) (roundFunction(r1) * 65535);
+        l1 = l2;
+        r1 = r2;
+    }
+    return ((r1 &lt;&lt; 16) + l1);
+}
+
+
+public static Double roundFunction(Long val) {
+    return ((131239 * val + 15534) % 714025) / 714025.0;
+}
+
+/**
+ * 调整字符顺序可增加混淆
+ */
+private static char[] charSet =
+        &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;.toCharArray();
+
+/**
+ * 将10进制转化为62进制
+ *
+ * @param number
+ * @param length 转化成的62进制长度，不足length长度的话高位补0，否则不改变什么
+ * @return
+ */
+public static String convertDecimalToBase62(long number, int length) {
+    Long rest = number;
+    Stack&lt;Character&gt; stack = new Stack&lt;Character&gt;();
+    StringBuilder result = new StringBuilder(0);
+    while (rest != 0) {
+        stack.add(charSet[new Long((rest - (rest / 62) * 62)).intValue()]);
+        rest = rest / 62;
+    }
+    for (; !stack.isEmpty(); ) {
+        result.append(stack.pop());
+    }
+    int result_length = result.length();
+    StringBuilder temp0 = new StringBuilder();
+    for (int i = 0; i &lt; length - result_length; i++) {
+        temp0.append(&apos;0&apos;);
+    }
+    return temp0.toString() + result.toString();
+}
+
+
+/**
+ * 将62进制转换成10进制数
+ *
+ * @param ident62
+ * @return
+ */
+public static String convertBase62ToDecimal(String ident62) {
+    int decimal = 0;
+    int base = 62;
+    int su = 0;
+    int cnt = 0;
+
+    byte ident[] = ident62.getBytes();
+    for (int i = ident.length - 1; i &gt;= 0; i--) {
+        int num = 0;
+        if (ident[i] &gt; 48 &amp;&amp; ident[i] &lt;= 57) {
+            num = ident[i] - 48;
+        } else if (ident[i] &gt;= 65 &amp;&amp; ident[i] &lt;= 90) {
+            num = ident[i] - 65 + 10;
+        } else if (ident[i] &gt;= 97 &amp;&amp; ident[i] &lt;= 122) {
+            num = ident[i] - 97 + 10 + 26;
+        }
+        su = (int) java.lang.Math.pow((double) base, (double) cnt);
+        decimal += num * su;
+        cnt++;
+    }
+    return String.format(&quot;%08d&quot;, decimal);
+}
+
+
+public static void main(String[] args) {
+    //转码测试
+    Long id = permutedId(10230L);
+    Long oid = permutedId(id);
+    System.out.println(id);
+    System.out.println(oid);
+    String s = convertDecimalToBase62(id, 6);
+    System.out.println(s);
+    String r = convertBase62ToDecimal(s);
+    System.out.println(r);
+    System.out.println(permutedId(Long.parseLong(r)));
+
+    //相邻转码无关性测试
+    for (int i = 0; i &lt; 10000; i++) {
+        Long newId = permutedId(Long.valueOf(i));
+        Long de = permutedId(newId);
+        System.out.println(String.format(&quot;原ID=%d, 一次permuted的ID=%d, 二次permuted后的ID=%d, Base62加密后=%s&quot;, i, newId, de, ShortCodeKit.convertDecimalToBase62(newId, 6)));
+    }
+}
+}
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/03/如何通过自增ID生成可逆短码(链接)/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-你看那个人好像一条狗哦" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -911,109 +1121,6 @@ List&lt;? extends Number&gt; foo = new ArrayList&lt;Number/Integer/Double&gt;()�
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/06/02/zookeeper-e9-9b-86-e7-be-a4-e6-90-ad-e5-bb-ba-e4-b8-89-e5-8f-b0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/22/linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac/">linux定时删除日志文件执行脚本</a>
-    </h1>
-  
-
-        
-        <a href="/2017/05/22/linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac/" class="archive-article-date">
-  	<time datetime="2017-05-22T14:25:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>linux是一个很能自动产生文件的系统，日志、邮件、备份等。虽然现在硬盘廉价，我们可以有很多硬盘空间供这些文件浪费，让系统定时清理一些不需要的文件很有一种爽快的事情。不用你去每天惦记着是否需要清理日志，不用每天收到硬盘空间不足的报警短信，想好好休息的话，让我们把这个事情交给机器定时去执行吧。 </p>
-</blockquote>
-<p><strong>1.删除文件命令</strong> </p>
-<pre><code>find 对应目录 -mtime +天数 -name &quot;文件名&quot; -exec rm -rf {} \; 
-</code></pre><p><strong>实例命令：</strong></p>
-<pre><code>find /opt/soft/log/ -mtime +30 -name &quot;*.log&quot; -exec rm -rf {} \; 
-</code></pre><p>说明： 将/opt/soft/log/目录下所有30天前带”.log”的文件删除。</p>
-<p>具体参数说明如下： </p>
-<ul>
-<li><code>find</code>：linux的查找命令，用户查找指定条件的文件； </li>
-<li><code>/opt/soft/log/</code>：想要进行清理的任意目录； </li>
-<li><code>-mtime</code>：标准语句写法； </li>
-<li><code>+30</code>：查找30天前的文件，这里用数字代表天数； </li>
-<li><code>&quot;*.log&quot;</code>：希望查找的数据类型，”<em>.jpg”表示查找扩展名为jpg的所有文件，”</em>“表示查找所有文件，这个可以灵活运用，举一反三； </li>
-<li><code>-exec</code>：固定写法；</li>
-<li><code>rm -rf</code>：强制删除文件，包括目录；</li>
-<li><code>{} \;</code>：固定写法，一对大括号+空格++; </li>
-</ul>
-<p><strong>2.计划任务</strong> </p>
-<p>若嫌每次手动执行语句太麻烦，可以将这小语句写到一个可执行shell脚本文件中，再设置cron调度执行，那就可以让系统自动去清理相关文件。 </p>
-<p><strong>2.1创建shell：</strong><br>    touch /opt/soft/bin/auto-del-30-days-ago-log.sh chmod +x auto-del-30-days-ago-log.sh 新建一个可执行文件auto-del-30-days-ago-log.sh，并分配可运行权限 </p>
-<p><strong>2.2编辑shell脚本：</strong> </p>
-<p>vi auto-del-30-days-ago-log.sh 编辑auto-del-30-days-ago-log.sh文件如下：</p>
-<p> #!/bin/sh<br> find /opt/soft/log/ -mtime +30 -name “*.log” -exec rm -rf {} \; ok，保存退出(:wq)。 2.3计划任务： </p>
-<p> #crontab -e<br> 将auto-del-30-days-ago-log.sh执行脚本加入到系统计划任务，到点自动执行 输入： 10 0 <em> </em> * /opt/soft/log/auto-del-7-days-ago-log.sh &gt;/dev/null 2&gt;&amp;1 这里的设置是每天凌晨0点10分执行auto-del-7-days-ago-log.sh文件进行数据清理任务了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">日志收集</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/05/22/linux-e5-ae-9a-e6-97-b6-e5-88-a0-e9-99-a4-e6-97-a5-e5-bf-97-e6-96-87-e4-bb-b6-e6-89-a7-e8-a1-8c-e8-84-9a-e6-9c-ac/">展开全文 >></a>
         </p>
       
 

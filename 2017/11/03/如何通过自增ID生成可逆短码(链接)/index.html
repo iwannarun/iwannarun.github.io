@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>你看那个人好像一条狗哦 | 我要稳稳的RUN</title>
+  <title>如何通过自增ID生成可逆短码(链接) | 我要稳稳的RUN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="博客">
+  <meta name="description" content="最近有一个生成短链接(地址、标识码)的需求，需要将数据库自增ID通过策略转换或加密成一串编码，要求生成的编码不应过长，不易破解并且可随意解析出原ID。或者说，这个需求有点类似微博站点短地址(https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。  思路 现成的可逆加密方式如AES256、DES等生成密码串过长，不符合需求(压缩也还是太长)。  MD5等单向加密方式，需要维护映射">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="你看那个人好像一条狗哦">
-<meta property="og:url" content="http://yoursite.com/2017/10/20/你看那个人好像一条狗哦/index.html">
+<meta property="og:title" content="如何通过自增ID生成可逆短码(链接)">
+<meta property="og:url" content="http://yoursite.com/2017/11/03/如何通过自增ID生成可逆短码(链接)/index.html">
 <meta property="og:site_name" content="我要稳稳的RUN">
+<meta property="og:description" content="最近有一个生成短链接(地址、标识码)的需求，需要将数据库自增ID通过策略转换或加密成一串编码，要求生成的编码不应过长，不易破解并且可随意解析出原ID。或者说，这个需求有点类似微博站点短地址(https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。  思路 现成的可逆加密方式如AES256、DES等生成密码串过长，不符合需求(压缩也还是太长)。  MD5等单向加密方式，需要维护映射">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pic.iwannarun.cn/dog.jpg">
-<meta property="og:updated_time" content="2017-10-20T08:16:01.000Z">
+<meta property="og:updated_time" content="2017-11-03T09:51:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你看那个人好像一条狗哦">
-<meta name="twitter:image" content="http://pic.iwannarun.cn/dog.jpg">
+<meta name="twitter:title" content="如何通过自增ID生成可逆短码(链接)">
+<meta name="twitter:description" content="最近有一个生成短链接(地址、标识码)的需求，需要将数据库自增ID通过策略转换或加密成一串编码，要求生成的编码不应过长，不易破解并且可随意解析出原ID。或者说，这个需求有点类似微博站点短地址(https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。  思路 现成的可逆加密方式如AES256、DES等生成密码串过长，不符合需求(压缩也还是太长)。  MD5等单向加密方式，需要维护映射">
   
     <link rel="alternative" href="/atom.xml" title="我要稳稳的RUN" type="application/atom+xml">
   
@@ -165,28 +166,164 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-你看那个人好像一条狗哦" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-如何通过自增ID生成可逆短码(链接)" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      你看那个人好像一条狗哦
+      如何通过自增ID生成可逆短码(链接)
     </h1>
   
 
         
-        <a href="/2017/10/20/你看那个人好像一条狗哦/" class="archive-article-date">
-  	<time datetime="2017-10-20T07:45:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-20</time>
+        <a href="/2017/11/03/如何通过自增ID生成可逆短码(链接)/" class="archive-article-date">
+  	<time datetime="2017-11-03T09:51:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://pic.iwannarun.cn/dog.jpg" alt=""></p>
+        <blockquote>
+<p>最近有一个生成短链接(地址、标识码)的需求，需要将数据库自增ID通过策略转换或加密成一串编码，要求生成的编码不应过长，不易破解并且可随意解析出原ID。或者说，这个需求有点类似微博站点短地址(<a href="https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。" target="_blank" rel="external">https://t.cn/x2ha4)访问后会转变成一串真实长度的地址。</a></p>
+</blockquote>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li><p>现成的可逆加密方式如AES256、DES等生成密码串过长，不符合需求(压缩也还是太长)。</p>
+</li>
+<li><p>MD5等单向加密方式，需要维护映射关系。每次访问需要查库在大数据量下影响像你，并且有一定几率发生碰撞(彩虹表)。</p>
+</li>
+<li><p>Base62加密，由<code>26个小写字母+26个大写字母+10个数字</code>共62个字符组成。将自增ID的十进制转为62进制，实现转码，并且可逆。</p>
+</li>
+</ul>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p> 通过Base62进行编码的方式可以得到相对比较精简的短码，这里虽然达到加密和压缩的效果却忽视自增ID带来的问题，Base62加密后的短码保留了”自增”的特性，容易被反解出前后编码。</p>
+<h2 id="最终方案"><a href="#最终方案" class="headerlink" title="最终方案"></a>最终方案</h2><p>查阅资料发现一种广泛应用于密码学的”Feistel算法”,具有非常奇妙的特性，那就是，在一定的数字范围内（2的n次方），每一个数字都能根据密钥找到唯一的一个匹配对象。即:</p>
+<pre><code>如果permutedId(a)=b，那么必然会有permutedId(b)=a。
+</code></pre><p>利用这个特点可轻松移除ID自增的属性，将ID转为另一个与之对应的”密码”，最后通过Base62转换得到最终符合我们的需求短码。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code>package com.xy.poker.util;
 
+import java.util.Stack;
+
+/**
+ * 将自增id转成短链接,
+ * 同时短连接可逆回自增id,
+ * 相邻自增id无规律，防破解。
+ * 基于Feistel的特性转为Base62。
+ *
+ * @author run
+ * @create 2017-11-02
+ **/
+public class ShortCodeKit {
+
+/**
+ * Feistel密码结构：如果permutedId(a)=b，那么必然会有permutedId(b)=a
+ *
+ * @param id
+ * @return
+ */
+public static Long permutedId(Long id) {
+    Long l1 = (id &gt;&gt; 16) &amp; 65535;
+    Long r1 = id &amp; 65535;
+
+    for (int i = 0; i &lt; 2; i++) {
+        Long l2 = r1;
+        Long r2 = l1 ^ (int) (roundFunction(r1) * 65535);
+        l1 = l2;
+        r1 = r2;
+    }
+    return ((r1 &lt;&lt; 16) + l1);
+}
+
+
+public static Double roundFunction(Long val) {
+    return ((131239 * val + 15534) % 714025) / 714025.0;
+}
+
+/**
+ * 调整字符顺序可增加混淆
+ */
+private static char[] charSet =
+        &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;.toCharArray();
+
+/**
+ * 将10进制转化为62进制
+ *
+ * @param number
+ * @param length 转化成的62进制长度，不足length长度的话高位补0，否则不改变什么
+ * @return
+ */
+public static String convertDecimalToBase62(long number, int length) {
+    Long rest = number;
+    Stack&lt;Character&gt; stack = new Stack&lt;Character&gt;();
+    StringBuilder result = new StringBuilder(0);
+    while (rest != 0) {
+        stack.add(charSet[new Long((rest - (rest / 62) * 62)).intValue()]);
+        rest = rest / 62;
+    }
+    for (; !stack.isEmpty(); ) {
+        result.append(stack.pop());
+    }
+    int result_length = result.length();
+    StringBuilder temp0 = new StringBuilder();
+    for (int i = 0; i &lt; length - result_length; i++) {
+        temp0.append(&apos;0&apos;);
+    }
+    return temp0.toString() + result.toString();
+}
+
+
+/**
+ * 将62进制转换成10进制数
+ *
+ * @param ident62
+ * @return
+ */
+public static String convertBase62ToDecimal(String ident62) {
+    int decimal = 0;
+    int base = 62;
+    int su = 0;
+    int cnt = 0;
+
+    byte ident[] = ident62.getBytes();
+    for (int i = ident.length - 1; i &gt;= 0; i--) {
+        int num = 0;
+        if (ident[i] &gt; 48 &amp;&amp; ident[i] &lt;= 57) {
+            num = ident[i] - 48;
+        } else if (ident[i] &gt;= 65 &amp;&amp; ident[i] &lt;= 90) {
+            num = ident[i] - 65 + 10;
+        } else if (ident[i] &gt;= 97 &amp;&amp; ident[i] &lt;= 122) {
+            num = ident[i] - 97 + 10 + 26;
+        }
+        su = (int) java.lang.Math.pow((double) base, (double) cnt);
+        decimal += num * su;
+        cnt++;
+    }
+    return String.format(&quot;%08d&quot;, decimal);
+}
+
+
+public static void main(String[] args) {
+    //转码测试
+    Long id = permutedId(10230L);
+    Long oid = permutedId(id);
+    System.out.println(id);
+    System.out.println(oid);
+    String s = convertDecimalToBase62(id, 6);
+    System.out.println(s);
+    String r = convertBase62ToDecimal(s);
+    System.out.println(r);
+    System.out.println(permutedId(Long.parseLong(r)));
+
+    //相邻转码无关性测试
+    for (int i = 0; i &lt; 10000; i++) {
+        Long newId = permutedId(Long.valueOf(i));
+        Long de = permutedId(newId);
+        System.out.println(String.format(&quot;原ID=%d, 一次permuted的ID=%d, 二次permuted后的ID=%d, Base62加密后=%s&quot;, i, newId, de, ShortCodeKit.convertDecimalToBase62(newId, 6)));
+    }
+}
+}
+</code></pre>
       
 
       
@@ -230,7 +367,7 @@ ga('send', 'pageview');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">博客</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -286,7 +423,7 @@ ga('send', 'pageview');
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/20/你看那个人好像一条狗哦/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/03/如何通过自增ID生成可逆短码(链接)/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -300,18 +437,9 @@ ga('send', 'pageview');
   
 <nav id="article-nav">
   
-    <a href="/2017/11/03/如何通过自增ID生成可逆短码(链接)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          如何通过自增ID生成可逆短码(链接)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/01/My-New-Post/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">你好，Hexo</div>
+    <a href="/2017/10/20/你看那个人好像一条狗哦/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">你看那个人好像一条狗哦</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -338,7 +466,7 @@ ga('send', 'pageview');
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-number">1.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方案"><span class="toc-number">2.</span> <span class="toc-text">方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最终方案"><span class="toc-number">3.</span> <span class="toc-text">最终方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -354,7 +482,7 @@ ga('send', 'pageview');
   
 
   
-  <div id="SOHUCS" sid="你看那个人好像一条狗哦" ></div> 
+  <div id="SOHUCS" sid="如何通过自增ID生成可逆短码(链接)" ></div> 
 <script type="text/javascript"> 
 window.YiliaChangyanWrap = function() {
     var appid = "cytifNIL1"; 
