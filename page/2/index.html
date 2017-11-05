@@ -181,6 +181,9 @@ ga('send', 'pageview');
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
@@ -284,6 +287,9 @@ ga('send', 'pageview');
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>利用<code>tcpdump</code>命令查看Netty建立TCP连接时，报文数据的流向，如图</p>
@@ -363,6 +369,9 @@ ga('send', 'pageview');
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="备份-amp-文件同步"><a href="#备份-amp-文件同步" class="headerlink" title="备份&amp;文件同步"></a>备份&amp;文件同步</h2><p> 首先，备份 <code>fstab</code> 文件，文件位于 <code>/etc/fstab</code></p>
@@ -450,6 +459,9 @@ rsync -aXS /var/lib/docker/. /data/docker/
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="http://o6qknsods.bkt.clouddn.com/markdown-3a734ea26c4fbb74395328385a3d25c9.png-960.jpg" alt=""></p>
@@ -589,6 +601,9 @@ CMD [&quot;run&quot;, &quot;--user=gitlab-runner&quot;, &quot;--working-director
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">variables: # 对应阿里云镜像仓库的namespace，全局唯一 </div><div class="line">GROUP: &quot;name&quot; PROJECT: &quot;project&quot; </div><div class="line"># 定义 stages pipeline顺序执行 </div><div class="line">stages:</div><div class="line">    - build </div><div class="line">    - test </div><div class="line">    - deploy </div><div class="line">build: </div><div class="line">    stage: build </div><div class="line">    #只允许构建的分支 </div><div class="line">    only: develop </div><div class="line">    #执行shell命令 </div><div class="line">    script: </div><div class="line">        - cd belgrade </div><div class="line">        - rm -rf build </div><div class="line">        - /usr/local/gradle/bin/gradle build --info </div><div class="line">        ## 构建镜像 </div><div class="line">        - sudo docker build -t &quot;$GROUP/$PROJECT:develop&quot; .</div><div class="line">        - sudo docker tag $GROUP/$PROJECT:develop registerUrl/$GROUP/$PROJECT:develop </div><div class="line">        - echo &apos;build done!&apos; </div><div class="line">andTest: </div><div class="line">     stage: test </div><div class="line">     only: - develop </div><div class="line">     script: </div><div class="line">         - echo &apos;test done!&apos; </div><div class="line">andPush: </div><div class="line">    stage: deploy </div><div class="line">    only: - develop </div><div class="line">    script: </div><div class="line">        #推送镜像到docker私仓 </div><div class="line">        - sudo docker push registerUrl/$GROUP/$PROJECT:develop </div><div class="line">        - echo &apos;push done!&apos; #触发jenkins的deploy任务 </div><div class="line">        - curl -s -u username:password http://JENKINS_SERVER/joba/deplody-belgrade/build?token=YOUR_TOCKEN </div><div class="line">        - echo &apos;deplody done!&apos;</div></pre></td></tr></table></figure>
@@ -664,6 +679,9 @@ CMD [&quot;run&quot;, &quot;--user=gitlab-runner&quot;, &quot;--working-director
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p> 在需要被执行的job的构建触发器中选择触发远程构建 (例如,使用脚本)： <img src="http://o6qknsods.bkt.clouddn.com/markdown-45fbcb836cd570c64855b5b132332a48.png-960.jpg" alt=""></p>
@@ -739,6 +757,9 @@ CMD [&quot;run&quot;, &quot;--user=gitlab-runner&quot;, &quot;--working-director
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
@@ -824,6 +845,9 @@ CMD [&quot;run&quot;, &quot;--user=gitlab-runner&quot;, &quot;--working-director
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
@@ -910,6 +934,9 @@ CMD [&quot;run&quot;, &quot;--user=gitlab-runner&quot;, &quot;--working-director
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
@@ -1003,6 +1030,9 @@ sdk install gradle 3.4.1&apos;
         
       </header>
     
+    <!-- 目录内容 -->
+    
+    <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>###设置代理仅对github.com有效</p>
